@@ -4,20 +4,22 @@ import dbConnect from '@/lib/db-connect';
 
 type httpMethod = 'get' | 'put' | 'post' | 'put' | 'delete' | 'patch';
 
-type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
-    Pick<T, Exclude<keyof T, Keys>>
-    & {
-        [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
-    }[Keys]
+type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
+  T,
+  Exclude<keyof T, Keys>
+> &
+  {
+    [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>;
+  }[Keys];
 
 type handlers = {
-  [key in  httpMethod]: (
+  [key in httpMethod]: (
     req: NextApiRequest,
     res: NextApiResponse
   ) => Promise<void>;
 };
 
-type handler = RequireAtLeastOne<handlers , httpMethod >
+type handler = RequireAtLeastOne<handlers, httpMethod>;
 
 export default function apiHandler(handler: handler) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
@@ -39,6 +41,7 @@ export default function apiHandler(handler: handler) {
       // route handler
       await handler[method]?.(req, res);
     } catch (err) {
+      console.log(err, 'err');
       // global error handler
       // errorHandler(err, res);
     }
