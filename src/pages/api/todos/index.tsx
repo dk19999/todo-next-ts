@@ -6,7 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import apiHandler from '@/utils';
 
-import TodoModel, { ITodo } from '../../../models/todo';
+import TodoModel from '../../../models/todo';
 
 const getTodos = async (req: NextApiRequest, res: NextApiResponse) => {
   const todos = await TodoModel.find({});
@@ -15,15 +15,18 @@ const getTodos = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const createTodo = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { name, completed }: ITodo = req.body;
+    
+    const { name, completed }: Omit<ToDoListItem, '_id'> = req.body;
  
     if (!name || completed === undefined) {
       return res.status(400).json({ message: 'Bad Request' });
     }
     const todo = await TodoModel.create({ name, completed });
     //create new todo item
-    return res.status(201).json({ message: `Created todo` });
+    return res.status(201).json({ todo});
   } catch (err) {
+    console.log("🚀 ~ file: index.tsx ~ line 28 ~ createTodo ~ err", err)
+    
     return res
       .status(500)
       .json({ message: 'Server Error, Something went wrong!' });
