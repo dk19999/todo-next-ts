@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import Layout from '@/components/layout/layout';
 import Seo from '@/components/seo';
+import TodoList from '@/components/todo-list';
 
 /**
  * SVGR Support
@@ -25,7 +26,7 @@ export default function HomePage() {
       <main>
         <section className='bg-white'>
           <div className='layout flex min-h-screen flex-col items-center justify-center text-center'>
-            <span>To do app</span>
+              <TodoList/>
           </div>
         </section>
       </main>

@@ -1,6 +1,5 @@
 import mongoose, {  Document, Schema } from 'mongoose';
 
-
 export interface ITodo extends Document {
   name: string;
   completed:boolean;
@@ -8,6 +7,7 @@ export interface ITodo extends Document {
 
 const TodoSchema:Schema = new Schema<ITodo>(
   {
+ 
     name: {
       type: String,
       required: true,
