@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { createTodo, getTodos, updateTodo } from '@/services/api/todo';
 
 import Todo from './todo';
+// import { showSuccessToast, wrapAPIToast } from '@/utils';
+import toast from 'react-hot-toast'
 
 function TodoList() {
   const [todoItemName, setToDoItemName] = useState<string>('');
@@ -12,9 +14,17 @@ function TodoList() {
     setToDoItemName(e.target.value);
   };
 
+
+  const showSuccessToast = (message?:string) => {
+    toast.success(message ?? 'Success')
+  }
+
   const addTask = () => {
     const newTask = { name: todoItemName, completed: false };
-    createTodo(newTask, fetchData, () => null);
+    createTodo(newTask, () => {
+      fetchData()
+    showSuccessToast('Added todo successfully')
+    }, () => null);
     setToDoItemName('');
   };
 
@@ -28,7 +38,8 @@ function TodoList() {
         setToDoList(data);
       },
       () => setToDoList([])
-    );
+    )
+
   };
 
   useEffect(() => {
@@ -43,9 +54,12 @@ function TodoList() {
     newTodo['completed'] = !todoItem.completed;
     updateTodo(
       newTodo,
-      () => fetchData(),
+      () => {
+        fetchData()
+        showSuccessToast('Updated todo successfully')
+      },
       () => null
-    );
+    )
   };
 
   return (

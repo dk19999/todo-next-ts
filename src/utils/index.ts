@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-
 import dbConnect from '@/lib/db-connect';
 
 type httpMethod = 'get' | 'put' | 'post' | 'put' | 'delete' | 'patch';

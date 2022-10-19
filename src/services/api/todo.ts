@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../lib/axios'
 
 export const getTodos = (
   callback: (toDoList: ToDoList) => void,
@@ -32,14 +32,18 @@ export const updateTodo = (
   callback: (data: { message: string }) => void,
   errorCallback: (error: Error) => void
 ) => {
-  axios({ url: `/api/todos/${data._id}`, data, method: 'put' })
+  return new Promise((resolve, reject) => {
+    axios({ url: `/api/todos/${data._id}`, data, method: 'put' })
     .then((res) => {
       callback && callback(res.data);
       console.log('🚀 ~ file: todo.ts ~ line 33 ~ .then ~ res.data', res.data);
+      resolve(res.data)
     })
     .catch((error) => {
       errorCallback && errorCallback(error);
+      reject(error)
     });
+  })
 };
 
 export const deleteTodo = (

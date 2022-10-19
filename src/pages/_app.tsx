@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app';
 
 import '@/styles/globals.css';
+import DismissableToast from '@/components/DismissableToast';
 
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 
@@ -11,7 +12,12 @@ import '@/styles/globals.css';
 
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return( 
+  <>
+    <DismissableToast/>
+  <Component {...pageProps} />
+  
+  </>);
 }
 
 export default MyApp;
